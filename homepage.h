@@ -77,86 +77,120 @@ h1 {
 }
 
 .content {
-  padding: 10px 14px 14px;
+  padding: 14px;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 20px;
+/* ── Stat cards grid ── */
+.stat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
 }
 
-th, td {
-  padding: 10px 8px;
-  border-bottom: 1px solid var(--line);
+.stat-card {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 16px 12px 14px;
+  background: rgba(255,255,255,.03);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
-th {
-  text-align: left;
-  font-weight: 600;
+.stat-label {
+  font-size: 13px;
   color: var(--muted);
-  font-size: 18px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin-bottom: 8px;
 }
 
-td:nth-child(2) {
-  text-align: right;
+.stat-value {
+  font-size: 42px;
+  font-weight: 700;
   font-variant-numeric: tabular-nums;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.stat-unit {
+  font-size: 15px;
+  color: var(--muted);
+}
+
+/* ── Air quality block ── */
+.aq-section {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px 16px 16px;
+  background: rgba(255,255,255,.03);
+}
+
+.aq-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.aq-label-text {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+.aq-badge {
+  padding: 3px 11px;
+  border-radius: 20px;
+  font-size: 13px;
   font-weight: 600;
 }
 
-td:nth-child(3) {
-  text-align: right;
-  color: var(--muted);
-  white-space: nowrap;
+.aq-badge.aq-good      { background: rgba(34,197,94,.18);  color: var(--good); }
+.aq-badge.aq-moderate  { background: rgba(245,158,11,.18); color: var(--moderate); }
+.aq-badge.aq-poor      { background: rgba(251,146,60,.18); color: var(--poor); }
+.aq-badge.aq-dangerous { background: rgba(239,68,68,.18);  color: var(--danger); }
+
+.aq-reading {
+  font-size: 42px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  margin-bottom: 12px;
 }
 
-tr:last-child td {
-  border-bottom: none;
+.aq-bar-h {
+  width: 100%;
+  height: 10px;
+  background: rgba(255,255,255,.08);
+  border-radius: 5px;
+  overflow: hidden;
 }
 
+.aq-fill-h {
+  height: 100%;
+  border-radius: 5px;
+}
+
+.aq-fill-h.aq-good      { background: var(--good); }
+.aq-fill-h.aq-moderate  { background: var(--moderate); }
+.aq-fill-h.aq-poor      { background: var(--poor); }
+.aq-fill-h.aq-dangerous { background: var(--danger); }
+
+/* ── Note ── */
 .note {
   margin-top: 10px;
   padding: 8px 10px;
-  font-size: 16px;
+  font-size: 15px;
   color: var(--muted);
   border: 1px dashed var(--line);
   border-radius: 8px;
 }
-
-.aq-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 10px;
-}
-
-.aq-num {
-  min-width: 70px;
-  text-align: right;
-  font-weight: 700;
-}
-
-.aq-bar {
-  width: 12px;
-  height: 28px;
-  border: 1px solid rgba(255,255,255,.25);
-  background: rgba(255,255,255,.06);
-  border-radius: 4px;
-  overflow: hidden;
-  position: relative;
-}
-
-.aq-fill {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-}
-
-.aq-good { background: var(--good); }
-.aq-moderate { background: var(--moderate); }
-.aq-poor { background: var(--poor); }
-.aq-dangerous { background: var(--danger); }
 </style>
 </head>
 
@@ -170,24 +204,12 @@ tr:last-child td {
     <section class="card">
       <h2>Sensor Data</h2>
       <div class="content">
-        <table>
-          <thead>
-            <tr>
-              <th>Sensor</th>
-              <th>Value</th>
-              <th>Unit / Status</th>
-            </tr>
-          </thead>
-          <tbody>
 )=====");
 
 String homePagePart2 = F(R"=====(
-          </tbody>
-        </table>
-
         <div class="note">
           Air quality thresholds (MQ135 ADC):
-          Good ≤1000 · Moderate 1001–1600 · Poor 1601–2400 · Dangerous &gt;2400
+          Good &le;1000 &nbsp;&middot;&nbsp; Moderate 1001&ndash;1600 &nbsp;&middot;&nbsp; Poor 1601&ndash;2400 &nbsp;&middot;&nbsp; Dangerous &gt;2400
         </div>
       </div>
     </section>

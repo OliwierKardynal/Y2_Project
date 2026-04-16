@@ -158,21 +158,21 @@ String getSensorData() {
   }
 
   String data = "";
-  data += "<tr><td>Temperature</td><td>" + String(temp, 1) + "</td><td>°C</td></tr>";
-  data += "<tr><td>Humidity</td><td>" + String(hum, 1) + "</td><td>%</td></tr>";
-  data += "<tr><td>Pressure</td><td>" + String(pres, 1) + "</td><td>hPa</td></tr>";
-  data += "<tr><td>Altitude</td><td>" + String(alt, 1) + "</td><td>m</td></tr>";
-  data +=
-      "<tr><td>Air Quality (MQ135)</td><td>"
-      "<div class='aq-wrap'>"
-      "<span class='aq-num'>" +
-      String(mq135) +
-      "</span>"
-      "<div class='aq-bar'><div class='aq-fill " +
-      aqClass + "' style='height:" + String(aqPercent) + "%'></div></div>"
-      "</div>"
-      "</td><td>" +
-      aqLabel + "</td></tr>";
+
+  // 2x2 stat cards
+  data += "<div class='stat-grid'>";
+  data += "<div class='stat-card'><div class='stat-label'>Temperature</div><div class='stat-value'>" + String(temp, 1) + "</div><div class='stat-unit'>°C</div></div>";
+  data += "<div class='stat-card'><div class='stat-label'>Humidity</div><div class='stat-value'>" + String(hum, 1) + "</div><div class='stat-unit'>%</div></div>";
+  data += "<div class='stat-card'><div class='stat-label'>Pressure</div><div class='stat-value'>" + String(pres, 1) + "</div><div class='stat-unit'>hPa</div></div>";
+  data += "<div class='stat-card'><div class='stat-label'>Altitude</div><div class='stat-value'>" + String(alt, 1) + "</div><div class='stat-unit'>m</div></div>";
+  data += "</div>";
+
+  // Air quality block with horizontal bar
+  data += "<div class='aq-section'>";
+  data += "<div class='aq-top'><span class='aq-label-text'>Air Quality (MQ135)</span><span class='aq-badge " + aqClass + "'>" + aqLabel + "</span></div>";
+  data += "<div class='aq-reading'>" + String(mq135) + "</div>";
+  data += "<div class='aq-bar-h'><div class='aq-fill-h " + aqClass + "' style='width:" + String(aqPercent) + "%'></div></div>";
+  data += "</div>";
 
   return data;
 }
