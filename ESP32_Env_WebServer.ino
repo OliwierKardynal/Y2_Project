@@ -25,7 +25,7 @@ const char *recipientEmail = EMAIL_RECIPIENT;
 WebServer server(80);
 
 // ===== BME280 =====
-#define SEALEVELPRESSURE_HPA 1002
+#define SEALEVELPRESSURE_HPA 1019.6
 Adafruit_BME280 bme;
 
 // ===== MQ135 =====
@@ -164,6 +164,22 @@ String getSensorData() {
   }
 
   String data = "";
+
+  // warmup countdown notice
+  if (!SKIP_WARMUP) {
+    long remaining = (long)WARMUP_MS - (long)millis();
+    if (remaining > 0) {
+      int mins = (int)(remaining / 60000);
+      int secs = (int)((remaining % 60000) / 1000);
+      char buf[6];
+      snprintf(buf, sizeof(buf), "%d:%02d", mins, secs);
+      data += "<div style='background:#1e3a5f;border:1px solid #2563eb;border-radius:8px;"
+              "padding:12px 16px;margin-bottom:16px;color:#93c5fd;font-size:14px;'>"
+              "MQ135 warming up &mdash; air quality alerts paused &nbsp;"
+              "<span style='font-variant-numeric:tabular-nums;font-weight:700;color:#60a5fa;'>"
+              + String(buf) + "</span> remaining</div>";
+    }
+  }
 
   // 2x2 stat cards
   data += "<div class='stat-grid'>";
