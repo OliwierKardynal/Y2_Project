@@ -38,6 +38,11 @@ bool airAlertSent = false;
 unsigned long lastCheckMs = 0;
 const unsigned long checkIntervalMs = 5000;
 
+// ===== MQ135 warmup =====
+// Set true to skip the 10-minute warmup (for testing only)
+#define SKIP_WARMUP false
+const unsigned long WARMUP_MS = 10UL * 60UL * 1000UL;
+
 // SMTP session object
 SMTPSession smtp;
 
@@ -107,8 +112,9 @@ void checkAlerts(float temp, float hum, float pres, float alt, int mq135) {
     tempAlertSent = false;
   }
 
-  // air quality alert
-  if (mq135 > 2400 && !airAlertSent) {
+  // air quality alert — suppressed during warmup period
+  bool warmedUp = SKIP_WARMUP || (millis() >= WARMUP_MS);
+  if (warmedUp && mq135 > 2400 && !airAlertSent) {
     String subject = "ESP32 warning: dangerous air quality";
     String body =
         "Air quality threshold exceeded.\n\n"
